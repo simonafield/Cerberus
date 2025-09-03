@@ -71,6 +71,7 @@ void tell(const ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid, c
     packet->message.Assign(to_cp437(message).c_str());
     packet->reliability = RELIABLE_ORDERED;
     self->rak_net_instance->sendTo(guid, *(Packet *) packet);
+    packet->destructor_deleting();
 }
 static void ServerSideNetworkHandler_onReady_ClientGeneration_injection(ServerSideNetworkHandler_onReady_ClientGeneration_t original, ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid) {
     // Handle Logged-In Users
