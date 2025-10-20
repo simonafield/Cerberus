@@ -9,7 +9,7 @@
 // Generate Random Password
 static std::string generate_password() {
     // Constants
-    constexpr int length = 8;
+    constexpr int length = 12;
     constexpr std::array characters = {
         // This is not very secure, but these passwords
         // are meant to be immediately reset.
@@ -92,7 +92,7 @@ void add_logged_in_commands(std::vector<Command> &commands, ServerSideNetworkHan
             // Return
             std::vector<std::string> out;
             out.push_back(message1);
-            if (!message1.empty()) {
+            if (!message2.empty()) {
                 out.push_back(message2);
             }
             return out;
@@ -174,7 +174,7 @@ void add_logged_in_commands(std::vector<Command> &commands, ServerSideNetworkHan
             // Return
             std::vector<std::string> out;
             out.push_back(message1);
-            if (!message1.empty()) {
+            if (!message2.empty()) {
                 out.push_back(message2);
             }
             return out;
