@@ -16,10 +16,10 @@ struct Command {
 
 // Common Arguments
 static constexpr const char *username_arg = "username";
-static constexpr const char *password_arg = "password";
 // Common Errors
 static constexpr const char *invalid_player = "Invalid Player";
 static constexpr const char *invalid_username = "Invalid Username";
+static constexpr const char *generated_password = "Generated Password: ";
 
 // Check Username
 bool is_username_valid(std::string username);

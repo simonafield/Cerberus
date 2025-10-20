@@ -12,7 +12,7 @@
 struct Webhook final : ConfigFile {
     std::string url;
     std::string ping_type;
-    snowflake ping_id;
+    snowflake ping_id = 0;
     // Load/Save
     void clear() override {
         url = "";
@@ -123,7 +123,7 @@ void send_to_discord(const std::string &message, const bool can_ping) {
             url.c_str(),
             nullptr
         };
-        safe_execvpe(argv, environ);
+        safe_execvpe(argv);
     }
 }
 

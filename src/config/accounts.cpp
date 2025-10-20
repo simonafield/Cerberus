@@ -104,22 +104,32 @@ bool has_account(const std::string &name) {
 }
 
 // Change Password
-bool change_password(const std::string &name, const std::string &old_password, const std::string &new_password) {
-    // Check Password
-    if (!attempt_login(name, old_password)) {
-        // Incorrect Old Password
+bool change_password(const std::string &name, const std::string &new_password) {
+    // Check Username
+    if (!has_account(name)) {
+        // Invalid Username
         return false;
     }
+    // Check New Password
     const std::string new_hash = hash_password(new_password);
     if (new_hash.empty()) {
         // Invalid New Password
         return false;
     }
     // Change
-    get_accounts().data[name] = new_hash;
+    get_accounts().data.at(name) = new_hash;
     get_accounts().save();
     notify("Password Changed", name);
     return true;
+}
+bool change_password(const std::string &name, const std::string &old_password, const std::string &new_password) {
+    // Check Old Password
+    if (!attempt_login(name, old_password)) {
+        // Incorrect Password
+        return false;
+    }
+    // Change
+    return change_password(name, new_password);
 }
 
 // Init

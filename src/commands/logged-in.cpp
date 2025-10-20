@@ -1,8 +1,33 @@
+#include <random>
+
 #include <mods/misc/misc.h>
 #include <mods/server/server.h>
 
 #include "commands.h"
 #include "../config/config.h"
+
+// Generate Random Password
+static std::string generate_password() {
+    // Constants
+    constexpr int length = 8;
+    constexpr std::array characters = {
+        // This is not very secure, but these passwords
+        // are meant to be immediately reset.
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+    };
+    // Generate
+    std::string password;
+    std::random_device random_device;
+    std::mt19937 generator(random_device());
+    std::uniform_int_distribution<> distribution(0, characters.size() - 1);
+    for (int i = 0; i < length; i++) {
+        password += characters.at(distribution(generator));
+    }
+    // Return
+    return password;
+}
 
 // Load Commands
 void add_logged_in_commands(std::vector<Command> &commands, ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid) {
@@ -46,22 +71,31 @@ void add_logged_in_commands(std::vector<Command> &commands, ServerSideNetworkHan
     commands.push_back({
         .name = "register",
         .requires_admin = true,
-        .args = {username_arg, password_arg},
+        .args = {username_arg},
         .callback = [](const std::vector<std::string> &args) {
             // Arguments
             const std::string &username = args[0];
-            const std::string &password = args[1];
+            const std::string &password = generate_password();
 
             // Run
-            std::string message;
+            std::string message1;
+            std::string message2;
             if (!is_username_valid(username)) {
-                message = invalid_username;
+                message1 = invalid_username;
             } else if (create_account(username, password)) {
-                message = "Created: " + username;
+                message1 = "Created: " + username;
+                message2 = generated_password + password;
             } else {
-                message = "Unable To Create Account";
+                message1 = "Unable To Create Account";
             }
-            return std::vector{message};
+
+            // Return
+            std::vector<std::string> out;
+            out.push_back(message1);
+            if (!message1.empty()) {
+                out.push_back(message2);
+            }
+            return out;
         }
     });
 
@@ -116,6 +150,34 @@ void add_logged_in_commands(std::vector<Command> &commands, ServerSideNetworkHan
                 message = "Password Changed";
             }
             return std::vector{message};
+        }
+    });
+
+    // Reset Player's Password
+    commands.push_back({
+        .name = "reset",
+        .requires_admin = true,
+        .args = {username_arg},
+        .callback = [](const std::vector<std::string> &args) {
+            // Arguments
+            const std::string &username = args[0];
+            const std::string &password = generate_password();
+
+            // Run
+            std::string message1 = "Unable To Reset Password";
+            std::string message2;
+            if (change_password(username, password)) {
+                message1 = "Reset Password: " + username;
+                message2 = generated_password + password;
+            }
+
+            // Return
+            std::vector<std::string> out;
+            out.push_back(message1);
+            if (!message1.empty()) {
+                out.push_back(message2);
+            }
+            return out;
         }
     });
 }

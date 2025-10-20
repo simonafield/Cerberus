@@ -25,7 +25,7 @@ void add_logged_out_commands(std::vector<Command> &commands, ServerSideNetworkHa
     // Login
     commands.push_back({
         .name = "login",
-        .args = {username_arg, password_arg},
+        .args = {username_arg, "password"},
         .callback = [self, &guid](const std::vector<std::string> &args) {
             // Arguments
             const std::string &username = args[0];
