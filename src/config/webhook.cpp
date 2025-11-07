@@ -1,6 +1,7 @@
 #include <fstream>
 #include <sstream>
 #include <unistd.h>
+#include <csignal>
 
 #include <libreborn/util/exec.h>
 #include <libreborn/util/string.h>
@@ -143,6 +144,7 @@ static void Gui_addMessage_injection(Gui_addMessage_t original, Gui *gui, const 
 
 // Init
 void init_webhook() {
+    signal(SIGCHLD, SIG_IGN);
     get_config();
     send_to_discord("**Server Started!**", false);
     // Logging
