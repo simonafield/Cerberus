@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include <symbols/minecraft.h>
-
 // Configuration File
 struct ConfigFile {
     virtual ~ConfigFile() = default;
@@ -47,6 +45,7 @@ void send_to_discord(const std::string &message, bool can_ping);
 
 // Admin
 bool is_admin(const std::string &username_utf);
+struct Player;
 bool is_admin(const Player *player);
 
 // Welcome Message

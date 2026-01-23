@@ -28,7 +28,8 @@ void ConfigFile::load() {
     save();
 }
 bool ConfigFile::check_load() const {
-    // Ignore Error
+    // Ignore Errors By Default
+    // Overridden By Sub-Classes
     return true;
 }
 

@@ -1,10 +1,13 @@
-#include <algorithm>
-#include <libreborn/log.h>
-#include <libreborn/util/string.h>
-
 #include "commands.h"
 #include "../mod.h"
 #include "../config/config.h"
+
+#include <algorithm>
+
+#include <libreborn/log.h>
+#include <libreborn/util/string.h>
+
+#include <symbols/ServerSideNetworkHandler.h>
 
 // Parsing Arguments
 static bool parse_two_args(const std::string &command, std::string &a, std::string &b) {

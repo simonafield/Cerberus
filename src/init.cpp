@@ -1,8 +1,8 @@
-#include <libreborn/config.h>
-#include <libreborn/log.h>
-
 #include "mod.h"
 #include "config/config.h"
+
+#include <libreborn/config.h>
+#include <libreborn/log.h>
 
 // Init
 __attribute__((constructor)) static void init() {

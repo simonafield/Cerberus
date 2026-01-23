@@ -1,6 +1,10 @@
+#include "commands.h"
+#include "../config/config.h"
+
 #include <mods/misc/misc.h>
 
-#include "commands.h"
+#include <symbols/ServerSideNetworkHandler.h>
+#include <symbols/Level.h>
 
 // Bullet Point
 static constexpr const char *bullet = "• ";
@@ -31,7 +35,11 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
             const Level *level = self->level;
             if (level) {
                 for (const Player *other : level->players) {
-                    ret.push_back(bullet + misc_get_player_username_utf(other));
+                    std::string line = bullet + misc_get_player_username_utf(other);
+                    if (is_admin(other)) {
+                        line += " (Administrator)";
+                    }
+                    ret.push_back(line);
                 }
             }
             return ret;

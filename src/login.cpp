@@ -1,8 +1,12 @@
+#include "mod.h"
+
 #include <mods/api/api.h>
+
 #include <libreborn/log.h>
 #include <libreborn/util/string.h>
 
-#include "mod.h"
+#include <symbols/ServerSideNetworkHandler.h>
+#include <symbols/ServerPlayer.h>
 
 // Login Player
 void login(ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid, std::string username) {

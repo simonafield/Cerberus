@@ -1,10 +1,13 @@
+#include "commands.h"
+#include "../config/config.h"
+
 #include <random>
 
 #include <mods/misc/misc.h>
 #include <mods/server/server.h>
 
-#include "commands.h"
-#include "../config/config.h"
+#include <symbols/ServerSideNetworkHandler.h>
+#include <symbols/Level.h>
 
 // Generate Random Password
 static std::string generate_password() {

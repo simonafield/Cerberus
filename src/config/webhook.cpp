@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include <fstream>
 #include <sstream>
 #include <unistd.h>
@@ -7,7 +9,7 @@
 #include <libreborn/util/string.h>
 #include <libreborn/patch.h>
 
-#include "config.h"
+#include <symbols/Gui.h>
 
 // Configuration
 struct Webhook final : ConfigFile {
@@ -19,15 +21,15 @@ struct Webhook final : ConfigFile {
         url = "";
     }
     void do_load(std::ifstream &) override;
-    bool check_load() const override;
-    bool can_save() const override {
+    [[nodiscard]] bool check_load() const override;
+    [[nodiscard]] bool can_save() const override {
         return false;
     }
     // Name
-    const char *get_name() const override {
+    [[nodiscard]] const char *get_name() const override {
         return "Discord Webhook";
     }
-    const char *get_file() const override {
+    [[nodiscard]] const char *get_file() const override {
         return "webhook.txt";
     }
 };
@@ -96,12 +98,6 @@ static std::string make_json(const std::string &message, const bool can_ping) {
     return out;
 }
 // Send Message
-static void redirect_file(FILE *file, const char *mode) {
-    const FILE *ret = freopen("/dev/null", mode, file);
-    if (!ret) {
-        IMPOSSIBLE();
-    }
-}
 void send_to_discord(const std::string &message, const bool can_ping) {
     const Webhook &config = get_config();
     // Get JSON
@@ -113,14 +109,15 @@ void send_to_discord(const std::string &message, const bool can_ping) {
     const std::string &url = config.url;
     // Send
     if (fork() == 0) {
-        redirect_file(stdout, "w");
-        redirect_file(stderr, "w");
-        redirect_file(stdin, "r");
         const char *const argv[] = {
             "curl",
-            "-X", "POST",
-            "-H", "Content-Type: application/json",
-            "-d", json.c_str(),
+            "--silent",
+            "--show-error",
+            "--fail",
+            "--output", "/dev/null",
+            "--request", "POST",
+            "--header", "Content-Type: application/json",
+            "--data", json.c_str(),
             url.c_str(),
             nullptr
         };

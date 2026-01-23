@@ -1,3 +1,6 @@
+#include "mod.h"
+#include "config/config.h"
+
 #include <unordered_set>
 
 #include <libreborn/patch.h>
@@ -6,8 +9,17 @@
 
 #include <mods/chat/chat.h>
 
-#include "mod.h"
-#include "config/config.h"
+#include <symbols/RakNet_RakNetGUID.h>
+#include <symbols/ServerSideNetworkHandler.h>
+#include <symbols/LoginPacket.h>
+#include <symbols/RequestChunkPacket.h>
+#include <symbols/ChatPacket.h>
+#include <symbols/ReadyPacket.h>
+#include <symbols/Packet.h>
+#include <symbols/StartGamePacket.h>
+#include <symbols/MessagePacket.h>
+#include <symbols/RakNetInstance.h>
+#include <symbols/Level.h>
 
 // Track Logged-In Users
 struct GUID_Helper {
@@ -18,7 +30,7 @@ struct GUID_Helper {
     };
     struct Equals {
         bool operator()(const RakNet_RakNetGUID &a, const RakNet_RakNetGUID &b) const {
-            return const_cast<RakNet_RakNetGUID &>(a).equals(b);
+            return a.equals(b);
         }
     };
 };

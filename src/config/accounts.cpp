@@ -1,8 +1,8 @@
-#include <fstream>
-#include <unordered_map>
-
 #include "config.h"
 #include "../mod.h"
+
+#include <fstream>
+#include <unordered_map>
 
 // Manager
 struct Accounts final : ConfigFile {
@@ -12,15 +12,15 @@ struct Accounts final : ConfigFile {
         data.clear();
     }
     void do_load(std::ifstream &) override;
-    bool can_save() const override {
+    [[nodiscard]] bool can_save() const override {
         return true;
     }
     void do_save(std::ofstream &) const override;
     // Name
-    const char *get_name() const override {
+    [[nodiscard]] const char *get_name() const override {
         return "Accounts";
     }
-    const char *get_file() const override {
+    [[nodiscard]] const char *get_file() const override {
         return "accounts.txt";
     }
 };
@@ -38,7 +38,7 @@ void Accounts::do_load(std::ifstream &file) {
         }
         std::string password;
         std::getline(file, password);
-        data[username] = password;
+        data.insert({username, password});
     }
 }
 
@@ -68,8 +68,9 @@ bool create_account(const std::string &name, const std::string &password) {
         return false;
     }
     // Create
-    get_accounts().data[name] = hash;
-    get_accounts().save();
+    Accounts &accounts = get_accounts();
+    accounts.data.insert({name, hash});
+    accounts.save();
     notify("New Account Created", name);
     return true;
 }
@@ -92,8 +93,9 @@ bool delete_account(const std::string &name) {
         return false;
     }
     // Delete
-    get_accounts().data.erase(name);
-    get_accounts().save();
+    Accounts &accounts = get_accounts();
+    accounts.data.erase(name);
+    accounts.save();
     notify("Banned", name);
     return true;
 }
@@ -117,8 +119,9 @@ bool change_password(const std::string &name, const std::string &new_password) {
         return false;
     }
     // Change
-    get_accounts().data.at(name) = new_hash;
-    get_accounts().save();
+    Accounts &accounts = get_accounts();
+    accounts.data.at(name) = new_hash;
+    accounts.save();
     notify("Password Changed", name);
     return true;
 }

@@ -1,9 +1,13 @@
-#include <libreborn/util/string.h>
-#include <mods/misc/misc.h>
-
 #include "commands.h"
 #include "../mod.h"
 #include "../config/config.h"
+
+#include <libreborn/util/string.h>
+
+#include <mods/misc/misc.h>
+
+#include <symbols/ServerSideNetworkHandler.h>
+#include <symbols/Level.h>
 
 // Check Username
 bool is_username_valid(std::string username) {

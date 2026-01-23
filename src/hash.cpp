@@ -1,12 +1,16 @@
-#include "mod.h"
 #include "bcrypt.h"
+
+#include <string>
+
+// Work Factor
+static constexpr int work_factor = 10;
 
 // Hashing
 std::string hash_password(const std::string &password) {
     char salt[BCRYPT_HASHSIZE];
     char hash[BCRYPT_HASHSIZE];
     // Generate Salt
-    int ret = bcrypt_gensalt(BCRYPT_DEFAULT_WORK_FACTOR, salt);
+    int ret = bcrypt_gensalt(work_factor, salt);
     if (ret != 0) {
         return "";
     }

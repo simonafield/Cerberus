@@ -1,6 +1,6 @@
 #pragma once
 
-#include <symbols/minecraft.h>
+#include <string>
 
 // Init
 void init_packets();
@@ -10,6 +10,8 @@ std::string hash_password(const std::string &password);
 bool hash_check(const std::string &password, const std::string &hash);
 
 // Packets
+struct ServerSideNetworkHandler;
+struct RakNet_RakNetGUID;
 void tell(const ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid, const std::string &message /* In UTF-8 */);
 void mark_logged_in(const RakNet_RakNetGUID &guid);
 

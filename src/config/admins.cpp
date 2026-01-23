@@ -1,8 +1,9 @@
+#include "config.h"
+
 #include <fstream>
 #include <unordered_set>
-#include <mods/misc/misc.h>
 
-#include "config.h"
+#include <mods/misc/misc.h>
 
 // Configuration
 struct Admins final : ConfigFile {
@@ -12,14 +13,14 @@ struct Admins final : ConfigFile {
         data.clear();
     }
     void do_load(std::ifstream &) override;
-    bool can_save() const override {
+    [[nodiscard]] bool can_save() const override {
         return false;
     }
     // Name
-    const char *get_name() const override {
+    [[nodiscard]] const char *get_name() const override {
         return "Administrator Accounts";
     }
-    const char *get_file() const override {
+    [[nodiscard]] const char *get_file() const override {
         return "admins.txt";
     }
 };

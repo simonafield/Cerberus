@@ -1,8 +1,8 @@
+#include "config.h"
+
 #include <fstream>
 
 #include <libreborn/util/string.h>
-
-#include "config.h"
 
 // Configuration
 struct Welcome final : ConfigFile {
@@ -12,15 +12,15 @@ struct Welcome final : ConfigFile {
         data.clear();
     }
     void do_load(std::ifstream &) override;
-    bool check_load() const override;
-    bool can_save() const override {
+    [[nodiscard]] bool check_load() const override;
+    [[nodiscard]] bool can_save() const override {
         return false;
     }
     // Name
-    const char *get_name() const override {
+    [[nodiscard]] const char *get_name() const override {
         return "Welcome Message";
     }
-    const char *get_file() const override {
+    [[nodiscard]] const char *get_file() const override {
         return "welcome.txt";
     }
 };

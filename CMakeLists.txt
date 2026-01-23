@@ -55,4 +55,9 @@ add_library(cerberus SHARED
     src/packets.cpp
     src/hash.cpp
 )
-target_link_libraries(cerberus mods symbols reborn-patch bcrypt)
+target_link_libraries(cerberus
+    mods
+    symbols
+    reborn-patch
+    bcrypt
+)
