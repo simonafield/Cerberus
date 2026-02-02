@@ -121,7 +121,7 @@ void send_to_discord(const std::string &message, const bool can_ping) {
             url.c_str(),
             nullptr
         };
-        safe_execvpe(argv);
+        safe_exec(argv);
     }
 }
 
