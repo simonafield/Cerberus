@@ -101,10 +101,16 @@ static std::string make_json(const std::string &message, const bool can_ping) {
 void send_to_discord(const std::string &message, const bool can_ping) {
     const Webhook &config = get_config();
     // Get JSON
-    std::string msg = message;
+    std::string msg;
     if (can_ping) {
-        msg = "<@" + std::to_string(config.ping_id) + "> " + msg;
+        msg += "<@";
+        if (config.ping_type == "role") {
+            msg += '&';
+        }
+        msg += std::to_string(config.ping_id);
+        msg += "> ";
     }
+    msg += message;
     const std::string json = make_json(msg, can_ping);
     const std::string &url = config.url;
     // Send
