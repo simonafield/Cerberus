@@ -60,8 +60,9 @@ static bool run(ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid, c
     });
 
     // Add Slash To Commands
+    constexpr char slash = '/';
     for (Command &command : commands) {
-        command.name.insert(0, 1, '/');
+        command.name.insert(0, 1, slash);
     }
 
     // Remove Prohibited Commands
@@ -94,6 +95,12 @@ static bool run(ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid, c
             }
             return true;
         }
+    }
+
+    // Handle Invalid Commands
+    if (input.starts_with(slash)) {
+        tell(self, guid, "Invalid Command");
+        return true;
     }
 
     // No Command Was Run
