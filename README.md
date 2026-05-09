@@ -13,9 +13,4 @@ All configuration files should be placed in the cerberus directory.
 The contents of this file will be displayed to every player when joining.
 
 ### webhook.txt
-This contains the Discord webhook.
-
-It consists of two lines:
-1. The Webhook URL
-2. Who Should Be Pinged
-   * Format: <user|role>:<id>
+This contains the Discord webhook URL.
