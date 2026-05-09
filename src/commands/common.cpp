@@ -57,7 +57,8 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
                             {
                                 for (const Entity *entity : level->entities)
                                 {
-                                    std::string line = bullet + misc_get_entity_name(entity);
+                                    Entity *ent = (Entity *)entity;
+                                    std::string line = bullet + misc_get_entity_name(ent);
                                     ret.push_back(line);
                                 }
                             }
