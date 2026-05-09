@@ -1,5 +1,5 @@
 # Cerberus
-This is the utility and moderation mod for the official server.
+This is the utility and moderation mod for Pi-SMP.
 
 It supports:
 * Forwarding Messages To A Discord Webhook
