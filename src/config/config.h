@@ -31,8 +31,7 @@ struct ConfigFile
 void init_webhook();
 
 // Webhook
-typedef unsigned long long snowflake;
-void send_to_discord(const std::string &message, bool can_ping);
+void send_to_discord(const std::string &message);
 
 // Admin
 struct Player;
