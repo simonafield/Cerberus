@@ -30,6 +30,8 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
                         }});
 
     // List Players
+    // https://github.com/MCPI-Revival/minecraft-pi-reborn/blob/master/symbols/src/level/Level.def
+    // https://github.com/MCPI-Revival/minecraft-pi-reborn/blob/master/symbols/src/entity/player/Player.def
     commands.push_back({.name = "list",
                         .callback = [self](MCPI_UNUSED const std::vector<std::string> &args)
                         {
@@ -42,6 +44,35 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
                                     std::string line = bullet + misc_get_player_username_utf(other);
                                     ret.push_back(line);
                                 }
+                            }
+                            return ret;
+                        }});
+
+    // Get Seed
+    // https://github.com/MCPI-Revival/minecraft-pi-reborn/blob/master/symbols/src/level/Level.def
+    commands.push_back({.name = "seed",
+                        .callback = [self](MCPI_UNUSED const std::vector<std::string> &args)
+                        {
+                            std::vector<std::string> ret = {"Seed:"};
+                            const Level *level = self->level;
+                            if (level)
+                            {
+                                ret.push_back(std::to_string(level->getSeed()));
+                            }
+                            return ret;
+                        }});
+
+    // Get Time
+    // https://github.com/MCPI-Revival/minecraft-pi-reborn/blob/master/symbols/src/level/Level.def
+    // https://github.com/MCPI-Revival/minecraft-pi-reborn/blob/master/symbols/src/level/LevelData.def
+    commands.push_back({.name = "time",
+                        .callback = [self](MCPI_UNUSED const std::vector<std::string> &args)
+                        {
+                            std::vector<std::string> ret = {"Time:"};
+                            const Level *level = self->level;
+                            if (level)
+                            {
+                                ret.push_back(std::to_string(level->data.getTime()));
                             }
                             return ret;
                         }});
