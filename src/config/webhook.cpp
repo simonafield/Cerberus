@@ -15,8 +15,6 @@
 struct Webhook final : ConfigFile
 {
     std::string url;
-    std::string ping_type;
-    snowflake ping_id = 0;
     // Load/Save
     void clear() override
     {
@@ -47,7 +45,7 @@ void Webhook::do_load(std::ifstream &file)
 }
 bool Webhook::check_load() const
 {
-    return !url.empty() && !ping_type.empty();
+    return !url.empty();
 }
 static const Webhook &get_config()
 {
