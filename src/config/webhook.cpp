@@ -93,9 +93,9 @@ static std::string escape(const std::string &input)
     }
     return escaped.str();
 }
-static std::string make_json(const std::string &message, const bool can_ping)
+static std::string make_json(const std::string &message)
 {
-    const Webhook &config = get_config();
+    std::string out = "{";
     // Suppress Embeds
     out += "\"flags\": 4, ";
     // Content
@@ -107,11 +107,11 @@ static std::string make_json(const std::string &message, const bool can_ping)
     return out;
 }
 // Send Message
-void send_to_discord(const std::string &message, const bool can_ping)
+void send_to_discord(const std::string &message)
 {
     const Webhook &config = get_config();
     // Get JSON
-    const std::string json = make_json(message, can_ping);
+    const std::string json = make_json(message);
     const std::string &url = config.url;
     // Send
     if (fork() == 0)
@@ -139,7 +139,7 @@ static void Gui_addMessage_injection(Gui_addMessage_t original, Gui *gui, const 
     {
         recursing = true;
         const std::string safe_message = from_cp437(text);
-        send_to_discord(safe_message, false);
+        send_to_discord(safe_message);
         original(gui, text);
         recursing = false;
     }
@@ -154,7 +154,7 @@ void init_webhook()
 {
     signal(SIGCHLD, SIG_IGN);
     get_config();
-    send_to_discord("**Server Started!**", false);
+    send_to_discord("**Server Started!**");
     // Logging
     overwrite_calls(Gui_addMessage, Gui_addMessage_injection);
 }
