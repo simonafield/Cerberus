@@ -5,7 +5,8 @@
 #include <functional>
 
 // Command Description
-struct Command {
+struct Command
+{
     std::string name;
     bool requires_admin = false;
     std::vector<std::string> args = {};
@@ -26,5 +27,3 @@ bool is_username_valid(std::string username);
 struct ServerSideNetworkHandler;
 struct RakNet_RakNetGUID;
 void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandler *self);
-void add_logged_out_commands(std::vector<Command> &commands, ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid);
-void add_logged_in_commands(std::vector<Command> &commands, ServerSideNetworkHandler *self, const RakNet_RakNetGUID &guid);
