@@ -44,16 +44,6 @@ void Webhook::do_load(std::ifstream &file)
 {
     // Load URL
     std::getline(file, url);
-    // Load Ping Information
-    std::string data;
-    std::getline(file, data);
-    const std::string::size_type i = data.find_first_of(':');
-    if (i != std::string::npos)
-    {
-        ping_type = data.substr(0, i);
-        const std::string id = data.substr(i + 1);
-        ping_id = strtoull(id.c_str(), nullptr, 10);
-    }
 }
 bool Webhook::check_load() const
 {
