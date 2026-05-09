@@ -57,7 +57,8 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
                             const Level *level = self->level;
                             if (level)
                             {
-                                ret.push_back(std::to_string(level->getSeed()));
+                                int seed = level->data.seed;
+                                ret.push_back(std::to_string(seed));
                             }
                             return ret;
                         }});
@@ -72,7 +73,8 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
                             const Level *level = self->level;
                             if (level)
                             {
-                                ret.push_back(std::to_string(level->data.getTime()));
+                                int time = level->data.time;
+                                ret.push_back(std::to_string(time));
                             }
                             return ret;
                         }});
