@@ -96,15 +96,6 @@ static std::string escape(const std::string &input)
 static std::string make_json(const std::string &message, const bool can_ping)
 {
     const Webhook &config = get_config();
-    // Allowed Mentions
-    std::string out = "{\"allowed_mentions\": {";
-    out += '"' + config.ping_type + "s\": [";
-    if (can_ping)
-    {
-        out += '"' + std::to_string(config.ping_id) + '"';
-    }
-    out += ']';
-    out += "}, ";
     // Suppress Embeds
     out += "\"flags\": 4, ";
     // Content
@@ -120,19 +111,7 @@ void send_to_discord(const std::string &message, const bool can_ping)
 {
     const Webhook &config = get_config();
     // Get JSON
-    std::string msg;
-    if (can_ping)
-    {
-        msg += "<@";
-        if (config.ping_type == "role")
-        {
-            msg += '&';
-        }
-        msg += std::to_string(config.ping_id);
-        msg += "> ";
-    }
-    msg += message;
-    const std::string json = make_json(msg, can_ping);
+    const std::string json = make_json(message, can_ping);
     const std::string &url = config.url;
     // Send
     if (fork() == 0)
