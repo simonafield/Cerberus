@@ -48,23 +48,6 @@ void add_common_commands(std::vector<Command> &commands, ServerSideNetworkHandle
                             return ret;
                         }});
 
-    commands.push_back({.name = "entities",
-                        .callback = [self](MCPI_UNUSED const std::vector<std::string> &args)
-                        {
-                            std::vector<std::string> ret = {"All Entities:"};
-                            const Level *level = self->level;
-                            if (level)
-                            {
-                                for (const Entity *entity : level->entities)
-                                {
-                                    Entity *ent = (Entity *)entity;
-                                    std::string line = bullet + misc_get_entity_name(ent);
-                                    ret.push_back(line);
-                                }
-                            }
-                            return ret;
-                        }});
-
     // Get Seed
     // https://github.com/MCPI-Revival/minecraft-pi-reborn/blob/master/symbols/src/level/Level.def
     commands.push_back({.name = "seed",
